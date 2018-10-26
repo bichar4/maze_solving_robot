@@ -59,13 +59,12 @@ void calibrate(){
 }
 
 void showCalibrated(){
-
     for(int i = 0;i<NUMSENSORS;i++){
-    calibratedMin[i] = 1023;
-    calibratedMax[i]= 0;
+      calibratedMin[i] = 1023;
+      calibratedMax[i]= 0;
   }
-
   int previousTime = millis();
+  
   while(millis()-previousTime < 10000){
     digitalWrite(13,HIGH);
     calibrate();

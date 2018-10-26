@@ -13,7 +13,7 @@
 #define rightSpeedPin  6
 
 void initializeMotor(){
-pinMode(leftMotorP, OUTPUT);
+  pinMode(leftMotorP, OUTPUT);
   pinMode(leftMotorM, OUTPUT);
   pinMode(rightMotorP, OUTPUT);
   pinMode(rightMotorM, OUTPUT);
