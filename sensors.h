@@ -19,12 +19,12 @@ void readSensor(){
   for(int i=0;i<NUMSENSORS;i++){
     sensorValues[i] = analogRead(sensorPin[i]);
   }
-//  for(int i =0;i<NUMSENSORS;i++){
-//    Serial.print(sensorValues[i]);
-//    Serial.print("===");
-//    
-//  }
-//  Serial.println(" ");
+  for(int i =0;i<NUMSENSORS;i++){
+    Serial.print(sensorValues[i]);
+    Serial.print("===");
+    
+  }
+  Serial.println(" ");
 }
 
 //checked 
