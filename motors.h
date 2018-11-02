@@ -11,6 +11,7 @@
 #define rightMotorM  10
 #define leftSpeedPin  5
 #define rightSpeedPin  6
+float speedFactor = 1;
 
 void initializeMotor(){
   pinMode(leftMotorP, OUTPUT);

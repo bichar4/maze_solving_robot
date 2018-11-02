@@ -8,9 +8,9 @@
 
 
 #define NUMSENSORS 5
-#define BASEPOSITION 2000
-unsigned int calibratedMin[NUMSENSORS] = {35,35,35,35,35};
-unsigned int calibratedMax[NUMSENSORS]= {750,700,700,850,700};
+#define BASEPOSITION 1980
+unsigned int calibratedMin[NUMSENSORS] = {21,21,21,21,21};
+unsigned int calibratedMax[NUMSENSORS]= {593,474,526,703,669};
 int sensorPin[NUMSENSORS] = {A0,A1,A2,A3,A4};
 int sensorValues[NUMSENSORS];
 
@@ -131,7 +131,7 @@ int readLine(){
     int value = sensorValues[i];
    // sensorValues[i] = value;
     //keep track of whether we see the line at all
-    if(value >10){
+    if(value >40){
       on_line = 1;
     }
 
