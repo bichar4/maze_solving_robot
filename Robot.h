@@ -9,13 +9,17 @@
 
 #include "motors.h"
 #include "sensors.h"
+#include "pinConfig.h"
+
+char path[50] = {};
+int pathLength = 0;
 
 
 float Kp=1,Ki=0,Kd=0.6;double error=0, P=0, I=0, D=0, PID_value=0;
 float previous_error=0, previous_I=0;
 
 int initial_motor_speed=200;
-int turningSpeed = 200;
+int turningSpeed = 210;
 int turningRunTime = 10;
 int turningHoldTime = 15;
 
@@ -60,6 +64,16 @@ void turnRight(){
     moveRightMotor(0);
     delay(turningHoldTime);
   }
+  while(analogRead(sensorPin[4])<sensorThreshold){
+      turningSpeed -= 20;
+       moveRightMotor(-turningSpeed);
+    moveLeftMotor(turningSpeed);
+    delay(turningRunTime);
+    moveLeftMotor(0);
+    moveRightMotor(0);
+    delay(turningHoldTime);
+     turningSpeed += 20;    
+    }
   while(analogRead(sensorPin[2])<sensorThreshold ){
     moveLeftMotor(turningSpeed);
     moveRightMotor(-turningSpeed);
@@ -81,6 +95,17 @@ void turnLeft(){
     moveLeftMotor(0);
     moveRightMotor(0);
     delay(turningHoldTime);
+    }
+    while(analogRead(sensorPin[0])<sensorThreshold){
+      turningSpeed -= 20;
+       moveRightMotor(turningSpeed);
+    moveLeftMotor(-turningSpeed);
+    delay(turningRunTime);
+    moveLeftMotor(0);
+    moveRightMotor(0);
+    delay(turningHoldTime);
+     turningSpeed += 20;  
+  
     }
   while(analogRead(sensorPin[2])<sensorThreshold ){
   
@@ -109,3 +134,59 @@ void done(){
   moveRightMotor(0);
 }
 
+
+void moveInch(int times){
+  int startTime = millis();
+  moveLeftMotor(times*200*speedFactor);
+  moveRightMotor(times*200);
+  if(times <0) times=(-1)*times;
+  while((millis()-startTime)<(times*50));
+   moveLeftMotor(0);
+  moveRightMotor(0);
+  delay(100);
+ 
+}
+
+void simplify(){
+    if(pathLength<3 || path[pathLength-2] !='B') return;
+    
+    int totalAngle=0;
+    int i;
+    
+    for(i=1;i<=3;i++){
+        switch(path[pathLength-i]){
+            case 'R':
+            totalAngle+=90;
+            break;
+            
+            case 'B':
+            totalAngle+= 180;
+            break;
+            
+            case 'L':
+            totalAngle += 270;
+            break;
+        }
+    }
+    
+    totalAngle = totalAngle%360;
+    switch(totalAngle){
+        case 0:
+        path[pathLength-3] = 'S';
+        break;
+        
+        case 90:
+        path[pathLength-3] = 'R';
+        break;
+        
+        case 180:
+        path[pathLength-3] = 'B';
+        break;
+        
+        case 270:
+        path[pathLength-3] = 'L';
+        break;
+    }
+    
+    pathLength -=2;
+}
